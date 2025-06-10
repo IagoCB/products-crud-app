@@ -1,14 +1,14 @@
 # 🛍️ Products CRUD App
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js"/>
-  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"/>
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white" alt="NestJS"/>
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
   <img src="https://img.shields.io/badge/tRPC-2596BE?style=for-the-badge&logo=trpc&logoColor=white" alt="tRPC"/>
 </div>
 
-Este é um aplicativo de gerenciamento de produtos desenvolvido com Next.js, TypeScript e Turborepo. O projeto permite realizar operações CRUD (Create, Read, Update, Delete) em produtos, oferecendo uma interface moderna e responsiva.
+Este é um aplicativo de gerenciamento de produtos desenvolvido com React, Vite, NestJS e TypeScript em um monorepo Turborepo. O projeto permite realizar operações CRUD (Create, Read, Update, Delete) em produtos, oferecendo uma interface moderna e responsiva.
 
 ## ✨ Funcionalidades
 
@@ -25,18 +25,20 @@ Este é um aplicativo de gerenciamento de produtos desenvolvido com Next.js, Typ
 
 - **Frontend:**
 
-  - Next.js
-  - TypeScript
   - React
+  - Vite
+  - TypeScript
   - Tailwind CSS
   - tRPC
   - WebSocket
 
 - **Backend:**
 
-  - Node.js
+  - NestJS
+  - TypeScript
   - tRPC
   - WebSocket
+  - Prisma (ORM)
 
 - **DevOps:**
 
@@ -53,10 +55,9 @@ Este é um aplicativo de gerenciamento de produtos desenvolvido com Next.js, Typ
 
 O projeto está organizado em um monorepo usando Turborepo, contendo:
 
-- `web`: Aplicação principal Next.js
-- `@repo/ui`: Biblioteca de componentes React compartilhada
-- `@repo/eslint-config`: Configurações do ESLint
-- `@repo/typescript-config`: Configurações do TypeScript
+- `apps/frontend`: Aplicação React + Vite
+- `apps/backend`: API NestJS
+- `packages/*`: Pacotes compartilhados
 
 ## 🚀 Executando o Projeto
 
