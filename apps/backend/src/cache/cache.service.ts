@@ -1,15 +1,20 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import Redis from 'ioredis';
+import { ConfigService } from '@nestjs/config';
+import { createClient } from 'redis';
 
 @Injectable()
 export class CacheService implements OnModuleInit {
-    private client: Redis;
+    private client: ReturnType<typeof createClient>;
 
-    onModuleInit() {
-        this.client = new Redis({
-            host: process.env.REDIS_HOST || 'localhost',
-            port: Number(process.env.REDIS_PORT) || 6379,
+    constructor(private configService: ConfigService) {
+        this.client = createClient({
+            url: `redis://${this.configService.get('REDIS_HOST')}:${this.configService.get('REDIS_PORT')}`,
         });
+    }
+
+    async onModuleInit() {
+        await this.client.connect();
+        this.client.on('error', (err) => console.error('Redis Client Error', err));
     }
 
     async get(key: string): Promise<string | null> {
@@ -17,7 +22,7 @@ export class CacheService implements OnModuleInit {
     }
 
     async set(key: string, value: string, ttlSeconds = 60): Promise<void> {
-        await this.client.set(key, value, 'EX', ttlSeconds);
+        await this.client.set(key, value, { EX: ttlSeconds });
     }
 
     async del(key: string): Promise<void> {

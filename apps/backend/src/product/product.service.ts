@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { ProductGateway } from './product.gateway';
 import { Product } from '@prisma/client';
-import { CacheService } from 'src/cache/cache.service';
+import { CacheService } from '../cache/cache.service';
 import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
@@ -11,6 +11,17 @@ export class ProductService {
     private readonly CACHE_KEY = 'products:all';
 
     constructor(private readonly prisma: PrismaService, private readonly productGateway: ProductGateway, private readonly cache: CacheService) { }
+
+    private convertDates(product: any): Product {
+        return {
+            ...product,
+            createdAt: new Date(product.createdAt),
+        };
+    }
+
+    private convertDatesArray(products: any[]): Product[] {
+        return products.map(product => this.convertDates(product));
+    }
 
     async create(dto: CreateProductDto) {
         const product = await this.prisma.product.create({
@@ -22,9 +33,9 @@ export class ProductService {
     }
 
     async findAll(): Promise<Product[]> {
-        const cached = await this.cache.get(this.CACHE_KEY);
-        if (cached) {
-            return JSON.parse(cached);
+        const cachedProducts = await this.cache.get(this.CACHE_KEY);
+        if (cachedProducts) {
+            return this.convertDatesArray(JSON.parse(cachedProducts));
         }
 
         const products = await this.prisma.product.findMany();
