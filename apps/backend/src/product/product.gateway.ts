@@ -14,4 +14,8 @@ export class ProductGateway {
   emitProductDeleted(productId: string) {
     this.server.emit('product_deleted', productId);
   }
+
+  emitProductUpdated(product: Product) {
+    this.server.emit('product_updated', product);
+  }
 }

@@ -1,84 +1,121 @@
-# Turborepo starter
+# 🛍️ Products CRUD App
 
-This Turborepo starter is maintained by the Turborepo core team.
+<div align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js"/>
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"/>
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+  <img src="https://img.shields.io/badge/tRPC-2596BE?style=for-the-badge&logo=trpc&logoColor=white" alt="tRPC"/>
+</div>
 
-## Using this example
+Este é um aplicativo de gerenciamento de produtos desenvolvido com Next.js, TypeScript e Turborepo. O projeto permite realizar operações CRUD (Create, Read, Update, Delete) em produtos, oferecendo uma interface moderna e responsiva.
 
-Run the following command:
+## ✨ Funcionalidades
 
-```sh
-npx create-turbo@latest
+- 📋 Listagem de produtos
+- ➕ Criação de novos produtos
+- ✏️ Edição de produtos existentes
+- 🗑️ Exclusão de produtos
+- 📱 Interface responsiva e moderna
+- ✅ Validação de dados
+- 💬 Feedback visual para ações do usuário
+- 🔄 Atualizações em tempo real com WebSocket
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Frontend:**
+
+  - Next.js
+  - TypeScript
+  - React
+  - Tailwind CSS
+  - tRPC
+  - WebSocket
+
+- **Backend:**
+
+  - Node.js
+  - tRPC
+  - WebSocket
+
+- **DevOps:**
+
+  - Docker
+  - Docker Compose
+  - Turborepo
+
+- **Ferramentas de Desenvolvimento:**
+  - ESLint
+  - Prettier
+  - Git
+
+## 📁 Estrutura do Projeto
+
+O projeto está organizado em um monorepo usando Turborepo, contendo:
+
+- `web`: Aplicação principal Next.js
+- `@repo/ui`: Biblioteca de componentes React compartilhada
+- `@repo/eslint-config`: Configurações do ESLint
+- `@repo/typescript-config`: Configurações do TypeScript
+
+## 🚀 Executando o Projeto
+
+### Com Docker
+
+1. Certifique-se de ter o Docker instalado em sua máquina
+2. Clone o repositório:
+
+```bash
+# HTTPS
+git clone https://github.com/IagoCB/products-crud-app.git
+
+# SSH
+git clone git@github.com:IagoCB/products-crud-app.git
+
+cd products-crud-app
 ```
 
-## What's inside?
+3. Execute o projeto com Docker Compose:
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```bash
+docker-compose up
 ```
 
-### Develop
+O aplicativo estará disponível em `http://localhost:3000`
 
-To develop all apps and packages, run the following command:
+### Sem Docker
 
-```
-cd my-turborepo
-pnpm dev
-```
+1. Certifique-se de ter o Node.js (versão 18 ou superior) instalado
+2. Clone o repositório:
 
-### Remote Caching
+```bash
+# HTTPS
+git clone https://github.com/IagoCB/products-crud-app.git
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+# SSH
+git clone git@github.com:IagoCB/products-crud-app.git
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+cd products-crud-app
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+3. Instale as dependências:
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
+```bash
+yarn install
 ```
 
-## Useful Links
+4. Execute o projeto em modo de desenvolvimento:
 
-Learn more about the power of Turborepo:
+```bash
+yarn dev
+```
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+O aplicativo estará disponível em `http://localhost:3000`
+
+## 📝 Scripts Disponíveis
+
+- `yarn dev`: Inicia o servidor de desenvolvimento
+- `yarn build`: Compila o projeto para produção
+- `yarn start`: Inicia o servidor de produção
+- `yarn lint`: Executa a verificação de linting
+- `yarn format`: Formata o código usando Prettier

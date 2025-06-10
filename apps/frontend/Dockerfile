@@ -1,18 +1,38 @@
-FROM node:18-alpine
+FROM node:20-alpine as builder
 
 WORKDIR /app
 
-# Habilitar o Corepack e configurar o Yarn
-RUN corepack enable && corepack prepare yarn@4.9.2 --activate
+# Copy root level package files (including workspaces)
+COPY package.json yarn.lock .yarnrc.yml .env* ./
+COPY .yarn ./.yarn/
 
-COPY package.json yarn.lock ./
-COPY packages/types ./packages/types
-COPY apps/frontend ./apps/frontend
+# Copy frontend specific package.json and public directory
+COPY apps/frontend/package.json ./apps/frontend/
+COPY apps/frontend/public ./apps/frontend/public/
 
-RUN yarn install
+# Copy types package and build it
+COPY packages/types/package.json ./packages/types/
+COPY packages/types/tsconfig.json ./packages/types/
+COPY packages/types/src ./packages/types/src/
+RUN yarn install 
+RUN yarn workspace @repo/types build # Build the types package
 
-WORKDIR /app/apps/frontend
+# Copy the rest of the frontend source code
+COPY . ./
 
-EXPOSE 5173
+# Build frontend
+RUN yarn workspace frontend build
 
-CMD ["yarn", "dev", "--host"] 
+FROM node:20-alpine as runner
+
+WORKDIR /app
+
+# Copy only necessary files from builder stage
+COPY --from=builder /app/apps/frontend/dist ./dist/
+COPY --from=builder /app/node_modules ./node_modules/
+COPY --from=builder /app/apps/frontend/package.json ./package.json
+COPY --from=builder /app/packages/types/dist ./packages/types/dist/
+COPY --from=builder /app/apps/frontend/public ./public/
+
+ENV PORT=5173
+CMD ["npx", "serve", "-s", "dist", "-p", "5173"] 

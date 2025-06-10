@@ -1,40 +1,63 @@
 import { useProdutos } from '../hooks/useProdutos';
+import { useCategorias } from '../hooks/useCategorias';
+import type { Product, Category } from '../../../../packages/types/src/index';
 
 export function ProdutoStats() {
   const { produtos } = useProdutos();
+  const { categorias } = useCategorias();
+
+  const categoryMap = new Map<string, string>(categorias.map((cat: Category) => [cat.id, cat.name]));
 
   const totalProdutos = produtos.length;
-  const valorTotal = produtos.reduce((acc, produto) => acc + produto.price, 0);
-  const produtosPorCategoria = produtos.reduce((acc, produto) => {
+  const valorTotal = produtos.reduce((acc: number, produto: Product) => acc + produto.price, 0);
+  const produtosPorCategoria = produtos.reduce((acc: Record<string, number>, produto: Product) => {
     acc[produto.categoryId] = (acc[produto.categoryId] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-lg font-medium text-gray-900">Total de Produtos</h3>
-        <p className="mt-2 text-3xl font-bold text-indigo-600">{totalProdutos}</p>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8" aria-label="Estatísticas de Produtos">
+      <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between h-32" role="status">
+        <h3 className="text-sm font-medium text-gray-500">Total de Produtos</h3>
+        <div className="flex items-center justify-between mt-1">
+          <p className="text-3xl font-semibold text-indigo-600">{totalProdutos}</p>
+          <div className="bg-indigo-100 p-3 rounded-full" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+        </div>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-lg font-medium text-gray-900">Valor Total</h3>
-        <p className="mt-2 text-3xl font-bold text-indigo-600">
-          R$ {valorTotal.toFixed(2)}
-        </p>
+      <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between h-32" role="status">
+        <h3 className="text-sm font-medium text-gray-500">Valor Total</h3>
+        <div className="flex items-center justify-between mt-1">
+          <p className="text-3xl font-semibold text-green-600">R$ {valorTotal.toFixed(2)}</p>
+          <div className="bg-green-100 p-3 rounded-full" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V9m0 3v2m0 3v1m0-13a9 9 0 110 18 9 9 0 010-18z" />
+            </svg>
+          </div>
+        </div>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-lg font-medium text-gray-900">Categorias</h3>
-        <div className="mt-2">
-          {Object.entries(produtosPorCategoria).map(([categoria, quantidade]) => (
-            <div key={categoria} className="flex justify-between items-center">
-              <span className="text-gray-600">{categoria}</span>
-              <span className="font-medium text-indigo-600">{quantidade}</span>
-            </div>
-          ))}
+      <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between" role="status">
+        <h3 className="text-sm font-medium text-gray-500 mb-2">Produtos por Categoria</h3>
+        <div className="space-y-2">
+          {Object.entries(produtosPorCategoria).length > 0 ? (
+            <>
+              {Object.entries(produtosPorCategoria).map(([categoryId, quantidade]) => (
+                <div key={categoryId} className="flex justify-between items-center text-sm" aria-label={`Categoria ${categoryMap.get(categoryId) || categoryId}: ${quantidade} produtos`}>
+                  <span className="text-gray-700 font-medium">{categoryMap.get(categoryId) || `Categoria ${categoryId}`}</span>
+                  <span className="font-semibold text-gray-900">{quantidade}</span>
+                </div>
+              ))}
+            </>
+          ) : (
+            <p className="text-gray-500 text-sm">Nenhuma categoria encontrada.</p>
+          )}
         </div>
       </div>
     </div>
   );
-} 
+}

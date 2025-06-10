@@ -62,7 +62,7 @@ export class ProductService {
             data: dto,
         });
         await this.cache.del(this.CACHE_KEY);
-        this.productGateway.emitNewProduct(updated);
+        this.productGateway.emitProductUpdated(updated);
         return updated;
     }
 
