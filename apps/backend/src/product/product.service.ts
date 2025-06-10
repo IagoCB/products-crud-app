@@ -39,6 +39,12 @@ export class ProductService {
         return product;
     }
 
+    async findByCategory(categoryId: string) {
+        return this.prisma.product.findMany({
+            where: { categoryId },
+        });
+    }
+
     async update(id: string, dto: UpdateProductDto): Promise<Product> {
         const updated = await this.prisma.product.update({
             where: { id },

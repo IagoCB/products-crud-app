@@ -34,6 +34,16 @@ export class ProductController {
         return this.productService.findById(id);
     }
 
+
+    @Get('/category/:categoryId')
+    @ApiOperation({ summary: 'Buscar produto por Category' })
+    @ApiParam({ name: 'categoryId', description: 'ID da categoria' })
+    @ApiResponse({ status: 200, description: 'Produto encontrado com sucesso', type: CreateProductDto })
+    @ApiResponse({ status: 404, description: 'Produto não encontrado' })
+    findByCategory(@Param('categoryId') categoryId: string) {
+        return this.productService.findByCategory(categoryId);
+    }
+
     @Put(':id')
     @ApiOperation({ summary: 'Atualizar um produto' })
     @ApiParam({ name: 'id', description: 'ID do produto' })

@@ -6,7 +6,10 @@ export class CacheService implements OnModuleInit {
     private client: Redis;
 
     onModuleInit() {
-        this.client = new Redis();
+        this.client = new Redis({
+            host: process.env.REDIS_HOST || 'localhost',
+            port: Number(process.env.REDIS_PORT) || 6379,
+        });
     }
 
     async get(key: string): Promise<string | null> {

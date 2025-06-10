@@ -1,9 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { seedCategories } from './prisma/seed';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  await seedCategories();
 
   const config = new DocumentBuilder()
     .setTitle('API de Produtos')
