@@ -8,7 +8,7 @@ export class CacheService implements OnModuleInit {
 
     constructor(private configService: ConfigService) {
         this.client = createClient({
-            url: `redis://${this.configService.get('REDIS_HOST')}:${this.configService.get('REDIS_PORT')}`,
+            url: this.configService.get('REDIS_URL'),
         });
     }
 
