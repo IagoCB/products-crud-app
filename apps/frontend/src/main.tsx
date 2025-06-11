@@ -20,7 +20,7 @@ function Root() {
       } catch (error) {}
     };
 
-    const intervalId = setInterval(checkBackendHealth, 2000);
+    const intervalId = setInterval(checkBackendHealth, 4000);
 
     checkBackendHealth();
 
