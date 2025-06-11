@@ -23,8 +23,5 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/backend/package.json ./
 COPY --from=builder /app/apps/backend/prisma ./prisma
 
-# Verificar se o build foi gerado corretamente
-RUN ls -la dist/apps/backend/src/
-
 ENV PORT=3000
 CMD ["sh", "-c", "yarn prisma generate && yarn prisma migrate deploy && node dist/apps/backend/src/main.js"]
