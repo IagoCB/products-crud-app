@@ -1,7 +1,8 @@
 FROM node:20-alpine as builder
 
 WORKDIR /app
-RUN npm install -g yarn@4.9.2
+RUN corepack enable
+RUN corepack prepare yarn@stable --activate
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn ./.yarn
