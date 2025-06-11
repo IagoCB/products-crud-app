@@ -6,6 +6,7 @@ COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn ./.yarn
 COPY apps/backend/package.json ./apps/backend/
 
+RUN corepack enable
 RUN yarn install
 RUN yarn add -D prisma
 

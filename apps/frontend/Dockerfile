@@ -11,6 +11,7 @@ COPY apps/frontend/public ./apps/frontend/public/
 COPY packages/types/package.json ./packages/types/
 COPY packages/types/tsconfig.json ./packages/types/
 COPY packages/types/src ./packages/types/src/
+RUN corepack enable # Habilita o Corepack
 RUN yarn install 
 RUN yarn workspace @repo/types build # Build the types package
 
