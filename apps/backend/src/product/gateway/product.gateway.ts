@@ -2,7 +2,12 @@ import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Product } from '@prisma/client';
 import { Server } from 'socket.io';
 
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: ['http://localhost:5173'],
+    credentials: true,
+  },
+})
 export class ProductGateway {
   @WebSocketServer()
   server: Server;

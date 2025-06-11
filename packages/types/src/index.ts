@@ -45,24 +45,5 @@ export const CreateCategoryDto = CategorySchema.omit({
 
 export const UpdateCategoryDto = CreateCategoryDto.partial();
 
-export type AppRouter = {
-    produto: {
-        getAll: () => Promise<Product[]>;
-        getById: (id: string) => Promise<Product>;
-        create: (data: z.infer<typeof CreateProductDto>) => Promise<Product>;
-        update: (data: { id: string } & z.infer<typeof UpdateProductDto>) => Promise<Product>;
-        delete: (id: string) => Promise<Product>;
-        onProdutoChanged: () => void;
-    };
-    categoria: {
-        getAll: () => Promise<Category[]>;
-        getById: (id: string) => Promise<Category>;
-        create: (data: z.infer<typeof CreateCategoryDto>) => Promise<Category>;
-        update: (data: { id: string } & z.infer<typeof UpdateCategoryDto>) => Promise<Category>;
-        delete: (id: string) => Promise<Category>;
-        onCategoriaChanged: () => void;
-    };
-};
-
 export type CreateProductDtoType = z.infer<typeof CreateProductDto>;
 export type UpdateProductDtoType = z.infer<typeof UpdateProductDto>; 

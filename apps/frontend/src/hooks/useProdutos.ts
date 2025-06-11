@@ -1,4 +1,7 @@
 import { trpc } from '../utils/trpc';
+import { useWebSocket } from './useWebSocket';
+import { useEffect } from 'react';
+import type { Product, CreateProductDtoType, UpdateProductDtoType } from '@repo/types';
 
 export function useProdutos() {
     const { data, refetch } = trpc.produto.getAll.useQuery();
@@ -12,11 +15,32 @@ export function useProdutos() {
         onSuccess: () => refetch()
     });
 
-    trpc.produto.onProdutoChanged.useSubscription(undefined, {
-        onData: () => refetch(),
-    });
+    const { onProductCreated, onProductUpdated, onProductDeleted } = useWebSocket();
 
-    const createProduto = async (data: CreateProductDto) => {
+    useEffect(() => {
+        const unsubscribeCreated = onProductCreated((product: Product) => {
+            console.log('🆕 Produto criado:', product);
+            refetch();
+        });
+
+        const unsubscribeUpdated = onProductUpdated((product: Product) => {
+            console.log('📝 Produto atualizado:', product);
+            refetch();
+        });
+
+        const unsubscribeDeleted = onProductDeleted((productId: string) => {
+            console.log('🗑️ Produto deletado:', productId);
+            refetch();
+        });
+
+        return () => {
+            unsubscribeCreated();
+            unsubscribeUpdated();
+            unsubscribeDeleted();
+        };
+    }, [onProductCreated, onProductUpdated, onProductDeleted, refetch]);
+
+    const createProduto = async (data: CreateProductDtoType) => {
         try {
             await create.mutateAsync(data);
         } catch (error) {
@@ -25,7 +49,7 @@ export function useProdutos() {
         }
     };
 
-    const updateProduto = async (id: string, data: UpdateProductDto) => {
+    const updateProduto = async (id: string, data: UpdateProductDtoType) => {
         try {
             await update.mutateAsync({ id, ...data });
         } catch (error) {

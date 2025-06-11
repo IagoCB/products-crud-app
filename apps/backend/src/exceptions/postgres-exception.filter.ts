@@ -11,7 +11,6 @@ export class PostgresExceptionFilter implements ExceptionFilter {
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
 
-        // Verifica se o erro é relacionado ao Prisma/PostgreSQL
         if (!exception.message.includes('Prisma') && !exception.message.includes('PostgreSQL'))
             return;
 

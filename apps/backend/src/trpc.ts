@@ -9,6 +9,7 @@ import { CacheService } from './cache/service/cache.service';
 import { CategoryService } from './category/service/category.service';
 import { createCategoryRouter } from './category/category.router';
 import { ConfigService } from '@nestjs/config';
+import * as cors from 'cors';
 
 export const t = initTRPC.create();
 export const router = t.router;
@@ -27,6 +28,8 @@ export const appRouter = router({
     health: publicProcedure.query(() => 'ok'),
 });
 
+export type AppRouter = typeof appRouter;
+
 export function createTrpcExpressApp(
     productService: ProductService,
     categoryService: CategoryService
@@ -38,6 +41,19 @@ export function createTrpcExpressApp(
     });
 
     const app = express();
+    app.use(cors({
+        origin: 'http://localhost:5173',
+        credentials: true,
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+        allowedHeaders: 'Content-Type,Accept,Authorization',
+    }));
+
+    app.options('/trpc', (req, res) => {
+        res.sendStatus(200);
+    });
+
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
     app.use('/trpc', trpcExpress.createExpressMiddleware({
         router: appRouter,
         createContext: () => ({}),

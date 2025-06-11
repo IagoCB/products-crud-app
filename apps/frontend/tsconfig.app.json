@@ -21,7 +21,8 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "@repo/types": ["../../packages/types/src/index.ts"]
+      "@repo/types": ["../../packages/types/src/index.ts"],
+      "@repo/backend/*": ["../../apps/backend/dist/*"]
     }
   },
   "include": ["src"]
