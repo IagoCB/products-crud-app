@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CategoryService } from './service/category.service';
-import { PrismaService } from '../prisma/prisma.service';
-import { CacheService } from '../cache/service/cache.service';
-import { CategoryGateway } from './category.gateway';
+import { CategoryService } from './category.service';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CacheService } from '../../cache/service/cache.service';
+import { CategoryGateway } from '../gateway/category.gateway';
 import { NotFoundException } from '@nestjs/common';
 
 interface Category {

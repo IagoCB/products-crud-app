@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CreateCategoryDto } from '../dto/create-category.dto';
-import { CategoryService } from './service/category.service';
+import { CategoryService } from '../service/category.service';
 import { Category } from '@prisma/client';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';

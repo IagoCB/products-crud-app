@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProductService } from './service/product.service';
-import { PrismaService } from '../prisma/prisma.service';
-import { CacheService } from '../cache/cache.service';
-import { ProductGateway } from './product.gateway';
+import { ProductService } from '../service/product.service';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CacheService } from '../../cache/service/cache.service';
+import { ProductGateway } from '../gateway/product.gateway';
 import { NotFoundException } from '@nestjs/common';
 
 interface Product {
@@ -39,6 +39,7 @@ describe('ProductService', () => {
   const mockProductGateway = {
     emitNewProduct: jest.fn(),
     emitProductDeleted: jest.fn(),
+    emitProductUpdated: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -237,7 +238,7 @@ describe('ProductService', () => {
         data: updateData,
       });
       expect(mockCacheService.del).toHaveBeenCalledWith('products:all');
-      expect(mockProductGateway.emitNewProduct).toHaveBeenCalledWith(updatedProduct);
+      expect(mockProductGateway.emitProductUpdated).toHaveBeenCalledWith(updatedProduct);
     });
   });
 

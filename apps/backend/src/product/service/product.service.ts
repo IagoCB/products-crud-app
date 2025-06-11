@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
-import { PrismaService } from '../prisma/prisma.service';
-import { ProductGateway } from './product.gateway';
+import { CreateProductDto } from '../dto/create-product.dto';
+import { PrismaService } from '../../prisma/prisma.service';
+import { ProductGateway } from '../gateway/product.gateway';
 import { Product } from '@prisma/client';
-import { CacheService } from '../cache/cache.service';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CacheService } from '../../cache/service/cache.service';
+import { UpdateProductDto } from '../dto/update-product.dto';
 
 @Injectable()
 export class ProductService {

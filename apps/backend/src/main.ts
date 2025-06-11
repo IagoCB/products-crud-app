@@ -3,7 +3,9 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { seedCategories } from './prisma/seed';
 import { ValidationPipe } from '@nestjs/common';
-import { AllExceptionsFilter } from './all-exceptions.filter';
+import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
+import { RedisExceptionFilter } from './exceptions/redis-exception.filter';
+import { PostgresExceptionFilter } from './exceptions/postgres-exception.filter';
 import { createTrpcExpressApp } from './trpc';
 import { ProductService } from './product/service/product.service';
 import { CategoryService } from './category/service/category.service';
@@ -25,7 +27,11 @@ async function bootstrap() {
   app.use(trpcApp);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
-  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalFilters(
+    new AllExceptionsFilter(),
+    new RedisExceptionFilter(),
+    new PostgresExceptionFilter()
+  );
 
   const config = new DocumentBuilder()
     .setTitle('API de Produtos')

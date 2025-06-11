@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ProductService } from './service/product.service';
-import { ProductController } from './product.controller';
+import { ProductController } from './controller/product.controller';
 import { ProductGateway } from './gateway/product.gateway';
 import { PrismaModule } from '../prisma/prisma.module';
 import { CacheModule } from 'src/cache/cache.module';
