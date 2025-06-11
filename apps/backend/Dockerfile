@@ -1,12 +1,12 @@
 FROM node:20-alpine as builder
 
 WORKDIR /app
+RUN npm install -g yarn@4.9.2
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn ./.yarn
 COPY apps/backend/package.json ./apps/backend/
 
-RUN corepack enable
 RUN yarn install
 RUN yarn add -D prisma
 

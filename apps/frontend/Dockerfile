@@ -1,6 +1,7 @@
 FROM node:20-alpine as builder
 
 WORKDIR /app
+RUN npm install -g yarn@4.9.2
 
 COPY package.json yarn.lock .yarnrc.yml .env* ./
 COPY .yarn ./.yarn/
@@ -11,7 +12,6 @@ COPY apps/frontend/public ./apps/frontend/public/
 COPY packages/types/package.json ./packages/types/
 COPY packages/types/tsconfig.json ./packages/types/
 COPY packages/types/src ./packages/types/src/
-RUN corepack enable # Habilita o Corepack
 RUN yarn install 
 RUN yarn workspace @repo/types build # Build the types package
 
