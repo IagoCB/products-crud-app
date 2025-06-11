@@ -1,6 +1,7 @@
 FROM node:20-alpine as builder
 
 WORKDIR /app
+RUN npm install -g corepack
 RUN corepack enable
 RUN corepack prepare yarn@stable --activate
 
