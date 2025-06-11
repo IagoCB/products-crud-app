@@ -8,8 +8,7 @@ import { NotFoundException } from '@nestjs/common';
 interface Category {
     id: string;
     name: string;
-    description: string;
-    createdAt: Date;
+    products: any[];
 }
 
 describe('CategoryService', () => {
@@ -74,14 +73,12 @@ describe('CategoryService', () => {
                 {
                     id: '1',
                     name: 'Category 1',
-                    description: 'Description 1',
-                    createdAt: new Date('2025-06-10T13:21:32.926Z')
+                    products: []
                 },
                 {
                     id: '2',
                     name: 'Category 2',
-                    description: 'Description 2',
-                    createdAt: new Date('2025-06-10T13:21:32.926Z')
+                    products: []
                 },
             ];
 
@@ -97,14 +94,12 @@ describe('CategoryService', () => {
                 {
                     id: '1',
                     name: 'Category 1',
-                    description: 'Description 1',
-                    createdAt: new Date('2025-06-10T13:21:32.926Z')
+                    products: []
                 },
                 {
                     id: '2',
                     name: 'Category 2',
-                    description: 'Description 2',
-                    createdAt: new Date('2025-06-10T13:21:32.926Z')
+                    products: []
                 },
             ];
 
@@ -113,7 +108,9 @@ describe('CategoryService', () => {
 
             const result = await service.findAll();
             expect(result).toEqual(mockCategories);
-            expect(mockPrismaService.category.findMany).toHaveBeenCalled();
+            expect(mockPrismaService.category.findMany).toHaveBeenCalledWith({
+                include: { products: true }
+            });
             expect(mockCacheService.set).toHaveBeenCalledWith('categories:all', JSON.stringify(mockCategories));
         });
     });
@@ -123,8 +120,7 @@ describe('CategoryService', () => {
             const mockCategory: Category = {
                 id: '1',
                 name: 'Category 1',
-                description: 'Description 1',
-                createdAt: new Date('2025-06-10T13:21:32.926Z')
+                products: []
             };
 
             mockPrismaService.category.findUnique.mockResolvedValue(mockCategory);
@@ -133,6 +129,7 @@ describe('CategoryService', () => {
             expect(result).toEqual(mockCategory);
             expect(mockPrismaService.category.findUnique).toHaveBeenCalledWith({
                 where: { id: '1' },
+                include: { products: true }
             });
         });
 
@@ -147,13 +144,12 @@ describe('CategoryService', () => {
         it('should create a new category', async () => {
             const newCategory = {
                 name: 'New Category',
-                description: 'New Description',
             };
 
             const createdCategory: Category = {
                 id: '1',
                 ...newCategory,
-                createdAt: new Date('2025-06-10T13:21:32.926Z')
+                products: []
             };
 
             mockPrismaService.category.create.mockResolvedValue(createdCategory);
@@ -162,6 +158,7 @@ describe('CategoryService', () => {
             expect(result).toEqual(createdCategory);
             expect(mockPrismaService.category.create).toHaveBeenCalledWith({
                 data: newCategory,
+                include: { products: true }
             });
             expect(mockCacheService.del).toHaveBeenCalledWith('categories:all');
             expect(mockCategoryGateway.emitNewCategory).toHaveBeenCalledWith(createdCategory);
@@ -172,13 +169,12 @@ describe('CategoryService', () => {
         it('should update an existing category', async () => {
             const updateData = {
                 name: 'Updated Category',
-                description: 'Updated Description',
             };
 
             const updatedCategory: Category = {
                 id: '1',
                 ...updateData,
-                createdAt: new Date('2025-06-10T13:21:32.926Z')
+                products: []
             };
 
             mockPrismaService.category.update.mockResolvedValue(updatedCategory);
@@ -188,6 +184,7 @@ describe('CategoryService', () => {
             expect(mockPrismaService.category.update).toHaveBeenCalledWith({
                 where: { id: '1' },
                 data: updateData,
+                include: { products: true }
             });
             expect(mockCacheService.del).toHaveBeenCalledWith('categories:all');
             expect(mockCategoryGateway.emitNewCategory).toHaveBeenCalledWith(updatedCategory);

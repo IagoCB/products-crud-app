@@ -16,23 +16,14 @@ export class CategoryService {
         private readonly categoryGateway: CategoryGateway,
     ) { }
 
-    private convertDates(category: any): Category {
-        return {
-            ...category,
-            createdAt: new Date(category.createdAt),
-        };
-    }
-
-    private convertDatesArray(categories: any[]): Category[] {
-        return categories.map(category => this.convertDates(category));
-    }
-
     async findAll(): Promise<Category[]> {
         const cached = await this.cache.get(this.CACHE_KEY);
         if (cached)
-            return this.convertDatesArray(JSON.parse(cached));
+            return JSON.parse(cached);
 
-        const categories = await this.prisma.category.findMany();
+        const categories = await this.prisma.category.findMany({
+            include: { products: true }
+        });
         await this.cache.set(this.CACHE_KEY, JSON.stringify(categories));
         return categories;
     }
@@ -40,6 +31,7 @@ export class CategoryService {
     async findById(id: string): Promise<Category> {
         const category = await this.prisma.category.findUnique({
             where: { id },
+            include: { products: true }
         });
 
         if (!category)
@@ -51,6 +43,7 @@ export class CategoryService {
     async create(dto: CreateCategoryDto): Promise<Category> {
         const category = await this.prisma.category.create({
             data: dto,
+            include: { products: true }
         });
 
         await this.cache.del(this.CACHE_KEY);
@@ -63,6 +56,7 @@ export class CategoryService {
         const category = await this.prisma.category.update({
             where: { id },
             data: dto,
+            include: { products: true }
         });
 
         await this.cache.del(this.CACHE_KEY);

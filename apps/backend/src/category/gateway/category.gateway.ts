@@ -1,6 +1,11 @@
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
-import { Category } from '@prisma/client';
+
+interface Category {
+    id: string;
+    name: string;
+    products: any[];
+}
 
 @WebSocketGateway({
     cors: {
@@ -12,10 +17,10 @@ export class CategoryGateway {
     server: Server;
 
     emitNewCategory(category: Category) {
-        this.server.emit('newCategory', category);
+        this.server.emit('category_created', category);
     }
 
     emitCategoryDeleted(id: string) {
-        this.server.emit('categoryDeleted', id);
+        this.server.emit('category_deleted', id);
     }
 } 

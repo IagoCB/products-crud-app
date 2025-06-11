@@ -31,7 +31,7 @@ describe('CategoryGateway', () => {
 
             gateway.emitNewCategory(mockCategory);
 
-            expect(mockServer.emit).toHaveBeenCalledWith('newCategory', mockCategory);
+            expect(mockServer.emit).toHaveBeenCalledWith('category_created', mockCategory);
         });
     });
 
@@ -41,7 +41,7 @@ describe('CategoryGateway', () => {
 
             gateway.emitCategoryDeleted(categoryId);
 
-            expect(mockServer.emit).toHaveBeenCalledWith('categoryDeleted', categoryId);
+            expect(mockServer.emit).toHaveBeenCalledWith('category_deleted', categoryId);
         });
     });
 }); 
