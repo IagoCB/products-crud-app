@@ -1,6 +1,6 @@
 import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
-import { CategoryService } from './category.service';
+import { CategoryService } from './service/category.service';
 import { CreateCategoryDto, UpdateCategoryDto } from '../../../../packages/types/src/index';
 
 export function createCategoryRouter(categoryService: CategoryService) {

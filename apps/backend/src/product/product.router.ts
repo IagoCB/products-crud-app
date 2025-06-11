@@ -1,6 +1,6 @@
 import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
-import { ProductService } from './product.service';
+import { ProductService } from './service/product.service';
 import { CreateProductDto, UpdateProductDto } from '../../../../packages/types/src/index';
 
 export function createProductRouter(productService: ProductService) {

@@ -3,7 +3,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { CategoryGateway } from './category.gateway';
 import { Category } from '@prisma/client';
-import { CacheService } from '../cache/cache.service';
+import { CacheService } from '../cache/service/cache.service';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()

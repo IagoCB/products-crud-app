@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// Schemas
 export const ProductSchema = z.object({
     id: z.string(),
     name: z.string().min(1, "O nome é obrigatório"),
@@ -19,11 +18,9 @@ export const CategorySchema = z.object({
     updatedAt: z.date(),
 });
 
-// Types
 export type Product = z.infer<typeof ProductSchema>;
 export type Category = z.infer<typeof CategorySchema>;
 
-// DTOs
 export const CreateProductDto = z.object({
     name: z.string().min(1, "Nome é obrigatório"),
     price: z.number().min(0.01, "Preço deve ser maior que 0"),
@@ -41,7 +38,6 @@ export const CreateCategoryDto = CategorySchema.omit({
 
 export const UpdateCategoryDto = CreateCategoryDto.partial();
 
-// Router Types
 export type AppRouter = {
     produto: {
         getAll: () => Promise<Product[]>;

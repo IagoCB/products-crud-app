@@ -28,7 +28,7 @@ function App() {
             </h1>
             <button
               onClick={() => {
-                setSelectedProduto(undefined); // Garante que o formulário é para novo produto
+                setSelectedProduto(undefined);
                 setShowForm(true);
               }}
               className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"

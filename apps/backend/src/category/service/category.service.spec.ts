@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CategoryService } from './category.service';
+import { CategoryService } from './service/category.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { CacheService } from '../cache/cache.service';
+import { CacheService } from '../cache/service/cache.service';
 import { CategoryGateway } from './category.gateway';
 import { NotFoundException } from '@nestjs/common';
 

@@ -5,21 +5,19 @@ import { seedCategories } from './prisma/seed';
 import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionsFilter } from './all-exceptions.filter';
 import { createTrpcExpressApp } from './trpc';
-import { ProductService } from './product/product.service';
-import { CategoryService } from './category/category.service';
+import { ProductService } from './product/service/product.service';
+import { CategoryService } from './category/service/category.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { logger: ['log', 'error', 'warn', 'debug', 'verbose'] });
 
-  // Habilitar CORS para permitir requisições do frontend
   app.enableCors({
-    origin: 'http://localhost:5173', // Ou a URL do seu frontend em produção
+    origin: 'http://localhost:5173',
     credentials: true,
   });
 
   await seedCategories();
 
-  // Obter instâncias dos serviços do contêiner de injeção de dependência do NestJS
   const productService = app.get(ProductService);
   const categoryService = app.get(CategoryService);
 

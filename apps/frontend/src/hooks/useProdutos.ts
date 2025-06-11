@@ -1,5 +1,4 @@
 import { trpc } from '../utils/trpc';
-import type { CreateProductDto, UpdateProductDto } from '@repo/types';
 
 export function useProdutos() {
     const { data, refetch } = trpc.produto.getAll.useQuery();
@@ -13,7 +12,6 @@ export function useProdutos() {
         onSuccess: () => refetch()
     });
 
-    // Subscription para tempo real
     trpc.produto.onProdutoChanged.useSubscription(undefined, {
         onData: () => refetch(),
     });
