@@ -2,11 +2,13 @@ import { useState } from "react";
 import { ProdutoTable } from "./components/ProdutoTable";
 import { ProdutoForm } from "./components/ProdutoForm";
 import { ProdutoStats } from "./components/ProdutoStats";
+import { CategoriaFilter } from "./components/CategoriaFilter";
 import type { Product } from "@repo/types";
 
 function App() {
   const [selectedProduto, setSelectedProduto] = useState<Product | undefined>();
   const [showForm, setShowForm] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleFormSuccess = () => {
     setShowForm(false);
@@ -26,15 +28,21 @@ function App() {
             <h1 className="text-3xl font-bold text-gray-900">
               Gerenciamento de Produtos
             </h1>
-            <button
-              onClick={() => {
-                setSelectedProduto(undefined);
-                setShowForm(true);
-              }}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-            >
-              Novo Produto
-            </button>
+            <div className="flex items-center space-x-4">
+              <CategoriaFilter
+                selectedCategory={selectedCategory}
+                onCategoryChange={setSelectedCategory}
+              />
+              <button
+                onClick={() => {
+                  setSelectedProduto(undefined);
+                  setShowForm(true);
+                }}
+                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+              >
+                Novo Produto
+              </button>
+            </div>
           </div>
 
           <ProdutoStats />
@@ -76,7 +84,10 @@ function App() {
             </div>
           )}
 
-          <ProdutoTable onEdit={handleEdit} />
+          <ProdutoTable
+            onEdit={handleEdit}
+            selectedCategory={selectedCategory}
+          />
         </div>
       </div>
     </div>
