@@ -11,9 +11,8 @@ export class RedisExceptionFilter implements ExceptionFilter {
         const request = ctx.getRequest<Request>();
 
         // Verifica se o erro é relacionado ao Redis
-        if (!exception.message.includes('Redis')) {
+        if (!exception.message.includes('Redis'))
             return;
-        }
 
         this.logger.error(`Redis Error: ${exception.message}`);
 

@@ -34,9 +34,8 @@ export class ProductService {
 
     async findAll(): Promise<Product[]> {
         const cachedProducts = await this.cache.get(this.CACHE_KEY);
-        if (cachedProducts) {
+        if (cachedProducts)
             return this.convertDatesArray(JSON.parse(cachedProducts));
-        }
 
         const products = await this.prisma.product.findMany();
         await this.cache.set(this.CACHE_KEY, JSON.stringify(products));

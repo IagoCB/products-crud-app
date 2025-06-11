@@ -29,9 +29,8 @@ export class CategoryService {
 
     async findAll(): Promise<Category[]> {
         const cached = await this.cache.get(this.CACHE_KEY);
-        if (cached) {
+        if (cached)
             return this.convertDatesArray(JSON.parse(cached));
-        }
 
         const categories = await this.prisma.category.findMany();
         await this.cache.set(this.CACHE_KEY, JSON.stringify(categories));
@@ -43,9 +42,8 @@ export class CategoryService {
             where: { id },
         });
 
-        if (!category) {
+        if (!category)
             throw new NotFoundException(`Category with ID ${id} not found`);
-        }
 
         return category;
     }
