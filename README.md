@@ -82,7 +82,10 @@ cd products-crud-app
 docker-compose up
 ```
 
-O aplicativo estará disponível em `http://localhost:3000`
+O aplicativo estará disponível em:
+
+- Frontend: `http://localhost:5173`
+- API Documentation (Swagger): `http://localhost:3000/api`
 
 ### Sem Docker
 
@@ -111,7 +114,10 @@ yarn install
 yarn dev
 ```
 
-O aplicativo estará disponível em `http://localhost:3000`
+O aplicativo estará disponível em:
+
+- Frontend: `http://localhost:5173`
+- API Documentation (Swagger): `http://localhost:3000/api`
 
 ## 📝 Scripts Disponíveis
 
