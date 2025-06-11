@@ -1,7 +1,6 @@
 FROM node:20-alpine as builder
 
 WORKDIR /app
-RUN corepack enable && corepack prepare yarn@stable --activate
 
 COPY package.json yarn.lock .yarnrc.yml .env* ./
 COPY .yarn ./.yarn/
@@ -12,8 +11,7 @@ COPY apps/frontend/public ./apps/frontend/public/
 COPY packages/types/package.json ./packages/types/
 COPY packages/types/tsconfig.json ./packages/types/
 COPY packages/types/src ./packages/types/src/
-RUN yarn install --immutable
-
+RUN yarn install 
 RUN yarn workspace @repo/types build # Build the types package
 
 COPY . ./
@@ -24,8 +22,6 @@ FROM node:20-alpine as runner
 
 WORKDIR /app
 
-RUN corepack enable && corepack prepare yarn@stable --activate
-
 COPY --from=builder /app/apps/frontend/dist ./dist/
 COPY --from=builder /app/node_modules ./node_modules/
 COPY --from=builder /app/apps/frontend/package.json ./package.json
@@ -33,4 +29,4 @@ COPY --from=builder /app/packages/types/dist ./packages/types/dist/
 COPY --from=builder /app/apps/frontend/public ./public/
 
 ENV PORT=5173
-CMD ["npx", "serve", "-s", "dist", "-p", "5173"]
+CMD ["npx", "serve", "-s", "dist", "-p", "5173"] 
