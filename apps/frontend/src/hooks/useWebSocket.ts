@@ -2,7 +2,8 @@ import { useEffect, useCallback } from 'react';
 import { io } from 'socket.io-client';
 
 export function useWebSocket() {
-    const socket = io('http://localhost:3000', {
+    const _url = import.meta.env.VITE_API_URL;
+    const socket = io(_url, {
         withCredentials: true,
     });
 

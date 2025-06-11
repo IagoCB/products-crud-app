@@ -9,11 +9,11 @@ const queryClient = new QueryClient();
 
 function Root() {
   const [backendReady, setBackendReady] = useState(false);
-
+  const _url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const checkBackendHealth = async () => {
       try {
-        const response = await fetch("http://localhost:3000/trpc/health");
+        const response = await fetch(_url + "/trpc/health");
         if (response.ok) {
           setBackendReady(true);
         }

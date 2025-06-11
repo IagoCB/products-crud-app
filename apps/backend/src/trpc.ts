@@ -42,7 +42,7 @@ export function createTrpcExpressApp(
 
     const app = express();
     app.use(cors({
-        origin: 'http://localhost:5173',
+        origin: process.env.FRONTEND_URL,
         credentials: true,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         allowedHeaders: 'Content-Type,Accept,Authorization',

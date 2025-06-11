@@ -16,6 +16,9 @@ RUN yarn workspace @repo/types build # Build the types package
 
 COPY . ./
 
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 RUN yarn workspace frontend build
 
 FROM node:20-alpine as runner
@@ -29,4 +32,10 @@ COPY --from=builder /app/packages/types/dist ./packages/types/dist/
 COPY --from=builder /app/apps/frontend/public ./public/
 
 ENV PORT=5173
-CMD ["npx", "serve", "-s", "dist", "-p", "5173"] 
+
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'sed -i "s|VITE_API_URL=.*|VITE_API_URL=$VITE_API_URL|g" /app/dist/index.html' >> /app/start.sh && \
+    echo 'npx serve -s dist -p 5173' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
+CMD ["/app/start.sh"] 
