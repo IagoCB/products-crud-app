@@ -13,8 +13,8 @@ export function CategoriaFilter({
   const { categorias } = useCategorias();
 
   return (
-    <div className="flex items-center space-x-2">
-      <div className="relative w-56">
+    <div className="w-full lg:flex lg:items-center lg:space-x-2 lg:w-auto">
+      <div className="relative w-full">
         <select
           value={selectedCategory}
           onChange={(e) => onCategoryChange(e.target.value)}

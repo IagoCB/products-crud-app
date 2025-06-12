@@ -1,7 +1,7 @@
 import { trpc } from '../utils/trpc';
 import { useWebSocket } from './useWebSocket';
 import { useEffect } from 'react';
-import type { Product, CreateProductDtoType, UpdateProductDtoType } from '@repo/types';
+import type { CreateProductDtoType, UpdateProductDtoType } from '@repo/types';
 
 export function useProdutos() {
     const { data, refetch } = trpc.produto.getAll.useQuery();
@@ -18,18 +18,15 @@ export function useProdutos() {
     const { onProductCreated, onProductUpdated, onProductDeleted } = useWebSocket();
 
     useEffect(() => {
-        const unsubscribeCreated = onProductCreated((product: Product) => {
-            console.log('🆕 Produto criado:', product);
+        const unsubscribeCreated = onProductCreated(() => {
             refetch();
         });
 
-        const unsubscribeUpdated = onProductUpdated((product: Product) => {
-            console.log('📝 Produto atualizado:', product);
+        const unsubscribeUpdated = onProductUpdated(() => {
             refetch();
         });
 
-        const unsubscribeDeleted = onProductDeleted((productId: string) => {
-            console.log('🗑️ Produto deletado:', productId);
+        const unsubscribeDeleted = onProductDeleted(() => {
             refetch();
         });
 

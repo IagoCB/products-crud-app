@@ -9,11 +9,9 @@ export function useWebSocket() {
 
     useEffect(() => {
         socket.on('connect', () => {
-            console.log('✅ Conectado ao WebSocket');
         });
 
         socket.on('disconnect', () => {
-            console.log('❌ Desconectado do WebSocket');
         });
 
         socket.on('error', (error) => {
