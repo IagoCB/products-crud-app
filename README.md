@@ -10,6 +10,23 @@
 
 Este é um aplicativo de gerenciamento de produtos desenvolvido com React, Vite, NestJS e TypeScript em um monorepo Turborepo. O projeto permite realizar operações CRUD (Create, Read, Update, Delete) em produtos, oferecendo uma interface moderna e responsiva.
 
+## 🚀 Deploy
+
+A aplicação está atualmente deployada no Railway, utilizando:
+
+- PostgreSQL e Redis como serviços do próprio Railway
+- Imagens Docker para deploy do frontend e backend
+
+### Links de Acesso
+
+- Frontend: [https://products-crud-app-frontend-production.up.railway.app/](https://products-crud-app-frontend-production.up.railway.app/)
+- API Documentation (Swagger): [https://products-crud-app-backend-production.up.railway.app/api](https://products-crud-app-backend-production.up.railway.app/api)
+
+### Imagens Docker
+
+- Backend: [https://hub.docker.com/r/iagocb/products-crud-app-backend](https://hub.docker.com/r/iagocb/products-crud-app-backend)
+- Frontend: [https://hub.docker.com/r/iagocb/products-crud-app-frontend](https://hub.docker.com/r/iagocb/products-crud-app-frontend)
+
 ## ✨ Funcionalidades
 
 - 📋 Listagem de produtos
