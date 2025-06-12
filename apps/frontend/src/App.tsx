@@ -8,7 +8,7 @@ import type { Product } from "@repo/types";
 function App() {
   const [selectedProduto, setSelectedProduto] = useState<Product | undefined>();
   const [showForm, setShowForm] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const handleFormSuccess = () => {
     setShowForm(false);
@@ -45,7 +45,10 @@ function App() {
             </div>
           </div>
 
-          <ProdutoStats />
+          <ProdutoStats
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+          />
 
           {showForm && (
             <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 p-4">

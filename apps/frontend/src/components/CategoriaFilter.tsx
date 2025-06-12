@@ -2,8 +2,8 @@ import { useCategorias } from "../hooks/useCategorias";
 import type { Category } from "@repo/types";
 
 interface CategoriaFilterProps {
-  selectedCategory: string;
-  onCategoryChange: (categoryId: string) => void;
+  selectedCategory: string | null;
+  onCategoryChange: (categoryId: string | null) => void;
 }
 
 export function CategoriaFilter({
@@ -16,8 +16,10 @@ export function CategoriaFilter({
     <div className="w-full lg:flex lg:items-center lg:space-x-2 lg:w-auto">
       <div className="relative w-full">
         <select
-          value={selectedCategory}
-          onChange={(e) => onCategoryChange(e.target.value)}
+          value={selectedCategory || ""}
+          onChange={(e) =>
+            onCategoryChange(e.target.value === "" ? null : e.target.value)
+          }
           className="block w-full appearance-none bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer pr-12"
         >
           <option value="">Todas as categorias</option>

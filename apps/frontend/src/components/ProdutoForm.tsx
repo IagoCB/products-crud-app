@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useProdutos } from "../hooks/useProdutos";
 import { useCategorias } from "../hooks/useCategorias";
 import { CategoriaForm } from "./CategoriaForm";
@@ -30,6 +30,15 @@ export function ProdutoForm({ produto, onSuccess }: ProdutoFormProps) {
   });
   const [errors, setErrors] = useState<z.ZodIssue[]>([]);
   const [showCategoriaForm, setShowCategoriaForm] = useState(false);
+  const [displayPrice, setDisplayPrice] = useState("");
+
+  useEffect(() => {
+    if (produto?.price !== undefined && produto.price !== null) {
+      setDisplayPrice(String(produto.price));
+    } else {
+      setDisplayPrice("0");
+    }
+  }, [produto?.price]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,13 +69,42 @@ export function ProdutoForm({ produto, onSuccess }: ProdutoFormProps) {
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev: CreateProductDtoType) => ({
-      ...prev,
-      [name]:
-        name === "price" || name === "quantity"
-          ? parseFloat(value) || 0
-          : value,
-    }));
+
+    setFormData((prev: CreateProductDtoType) => {
+      let newPriceValue: number | undefined;
+      let newQuantityValue: number | undefined;
+
+      if (name === "price") {
+        const cleanedValue = value
+          .replace(/[^0-9,.]/g, "")
+          .replace(/,(\d*\.?)/g, ".$1");
+        setDisplayPrice(cleanedValue);
+        const parsedValue = parseFloat(cleanedValue);
+        newPriceValue = isNaN(parsedValue) ? 0 : parsedValue;
+        return { ...prev, [name]: newPriceValue };
+      } else if (name === "quantity") {
+        const cleanedValue = value.replace(",", ".");
+        newQuantityValue = isNaN(parseInt(cleanedValue, 10))
+          ? 0
+          : parseInt(cleanedValue, 10);
+        return { ...prev, [name]: newQuantityValue };
+      }
+
+      return { ...prev, [name]: value };
+    });
+  };
+
+  const handlePriceBlur = () => {
+    const cleanedValue = displayPrice.replace(",", ".");
+    const parsedValue = parseFloat(cleanedValue);
+
+    if (!isNaN(parsedValue)) {
+      setDisplayPrice(parsedValue.toFixed(2));
+      setFormData((prev) => ({ ...prev, price: parsedValue }));
+    } else {
+      setDisplayPrice("0.00");
+      setFormData((prev) => ({ ...prev, price: 0 }));
+    }
   };
 
   const getErrorMessage = (path: string) => {
@@ -116,15 +154,13 @@ export function ProdutoForm({ produto, onSuccess }: ProdutoFormProps) {
             Preço
           </label>
           <input
-            type="number"
+            type="text"
             id="price"
             name="price"
-            value={formData.price}
+            value={displayPrice}
             onChange={handleChange}
+            onBlur={handlePriceBlur}
             placeholder="0.00"
-            min="0.01"
-            max="999999.99"
-            step="0.01"
             className={`mt-1 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white text-gray-900 appearance-none ${getErrorMessage("price") ? "border-red-500" : "border-gray-300"}`}
             aria-invalid={!!getErrorMessage("price")}
             aria-describedby="price-error"
@@ -144,15 +180,12 @@ export function ProdutoForm({ produto, onSuccess }: ProdutoFormProps) {
             Quantidade
           </label>
           <input
-            type="number"
+            type="text"
             id="quantity"
             name="quantity"
-            value={formData.quantity}
+            value={formData.quantity.toString()}
             onChange={handleChange}
             placeholder="0"
-            min="0"
-            max="10000"
-            step="1"
             className={`mt-1 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white text-gray-900 appearance-none ${getErrorMessage("quantity") ? "border-red-500" : "border-gray-300"}`}
             aria-invalid={!!getErrorMessage("quantity")}
             aria-describedby="quantity-error"

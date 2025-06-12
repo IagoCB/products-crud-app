@@ -5,7 +5,7 @@ import { memo } from "react";
 
 interface ProdutoTableProps {
   onEdit: (product: Product) => void;
-  selectedCategory: string;
+  selectedCategory: string | null;
 }
 
 export const ProdutoTable = memo(
